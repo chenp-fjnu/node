@@ -218,6 +218,7 @@ NODE_EXTERN void Init(int* argc,
 
 class IsolateData;
 class Environment;
+class NodePlatform;
 
 class MultiIsolatePlatform : public v8::Platform {
  public:
@@ -257,6 +258,12 @@ NODE_EXTERN MultiIsolatePlatform* CreatePlatform(
     int thread_pool_size,
     v8::TracingController* tracing_controller);
 NODE_EXTERN void FreePlatform(MultiIsolatePlatform* platform);
+
+NODE_EXTERN NodePlatform* CreatePlatform(
+    int thread_pool_size,
+    struct uv_loop_s* loop,
+    v8::TracingController* tracing_controller);
+NODE_EXTERN void FreePlatform(NodePlatform* platform);
 
 NODE_EXTERN void EmitBeforeExit(Environment* env);
 NODE_EXTERN int EmitExit(Environment* env);

@@ -4546,13 +4546,9 @@ void Init(int* argc,
   // Initialize prog_start_time to get relative uptime.
   prog_start_time = static_cast<double>(uv_now(uv_default_loop()));
 
-<<<<<<< HEAD
-  // Register built-in modules
   node::RegisterBuiltinModules();
 
-=======
   if (g_upstream_node_mode) {  // No indent to minimize diff.
->>>>>>> 540b24ff94... Add flags to control whether to set low level hooks and disable exceptions.
   // Make inherited handles noninheritable.
   uv_disable_stdio_inheritance();
   }  // g_upstream_node_mode
@@ -4761,7 +4757,6 @@ void FreePlatform(MultiIsolatePlatform* platform) {
   delete platform;
 }
 
-
 Local<Context> NewContext(Isolate* isolate,
                           Local<ObjectTemplate> object_template) {
   auto context = Context::New(isolate, nullptr, object_template);
@@ -4778,6 +4773,16 @@ Local<Context> NewContext(Isolate* isolate,
   return context;
 }
 
+NodePlatform* CreatePlatform(
+    int thread_pool_size,
+    uv_loop_t* loop,
+    v8::TracingController* tracing_controller) {
+  return new NodePlatform(thread_pool_size, loop, tracing_controller);
+}
+
+void FreePlatform(NodePlatform* platform) {
+  delete platform;
+}
 
 inline int Start(Isolate* isolate, IsolateData* isolate_data,
                  int argc, const char* const* argv,
